@@ -2,9 +2,6 @@ name: DEMON-BOT
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   bot:
@@ -14,6 +11,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check project structure
+        run: |
+          echo "===== ROOT ====="
+          ls -la
+          echo "===== ALL JS FILES ====="
+          find . -type f -name "*.js" | sort
+          echo "===== COMMANDS ====="
+          ls -la commands || true
+          echo "===== COMMAND PING ====="
+          ls -la commands/ping.js || true
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -21,12 +29,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Check Node.js
-        run: node --version
-
-      - name: Check npm
-        run: npm --version
 
       - name: Start DEMON-BOT
         env:
